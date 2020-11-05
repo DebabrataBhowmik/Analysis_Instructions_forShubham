@@ -1,22 +1,57 @@
 # Analysis_Instructions_forShubham
- Go to directory : /afs/cern.ch/work/d/dbhowmik/public/Analysis/MHgg/2017Analysis/CMSSW_9_4_6/src/MonoHiggsToGG/analysis/work/macros
+Either make a new area or do it in your CMSSW_10_6_8 area 
 
-check the path inside myrunAddWeightsAll.sh and run
+go to CMSSW_10_6_8/src/MonoHiggsToGG/analysis/work/macros
 
-./myrunAddWeightsAll.sh 41.529(lumi)
+cp /afs/cern.ch/work/d/dbhowmik/public/Analysis/MHgg/2017Analysis/CMSSW_9_4_6/src/MonoHiggsToGG/analysis/work/macros/* . 
 
-./myrunSkimAll.sh
+cd CMSSW_10_6_8/src/MonoHiggsToGG/analysis/work/scripts
 
-Then go to ../../fits i.e. (analysis/fits) and run
+cp /afs/cern.ch/work/d/dbhowmik/public/Analysis/MHgg/2017Analysis/CMSSW_9_4_6/src/MonoHiggsToGG/analysis/work/scripts/* . 
+
+cd CMSSW_10_6_8/src/MonoHiggsToGG/analysis/fits
+
+cp -r /afs/cern.ch/work/d/dbhowmik/public/Analysis/MHgg/2017Analysis/CMSSW_9_4_6/src/MonoHiggsToGG/analysis/fits/2017_2HDMa_EOY/ .
+
+Go to directory : CMSSW_10_6_8/src/MonoHiggsToGG/analysis/work/macros
+
+check the path inside myrunAddWeightsAll_EOY.sh and run
+
+./myrunAddWeightsAll_EOY.sh 41.529(lumi)
+
+hadd nTuple_GJet_EOY.root nTuple_GJet_Pt*.root 
+
+hadd nTuple_QCD_EOY.root nTuple_QCD_Pt*.root 
+
+open myrunSkimAll_2HDMa_testModCuts_EOY.sh;  check input output paths
+
+In Line 16 change skim_testModCuts_combinedMETtest.C to skim_testModCuts.C 
+
+./myrunSkimAll_2HDMa_testModCuts_EOY.sh
+
+Then go to /CMSSW_10_6_8/src/MonoHiggsToGG/analysis/fits/2017_2HDMa_EOY/LowMET  and run
 
 ./myformatNtupleForFitting_METcat.sh
 
-cd /afs/cern.ch/work/d/dbhowmik/public/Analysis/MHgg/2017Analysis/Fit_DiPhotonTools/CMSSW_9_4_9/src/diphotons/Analysis/macros
 
-cp -r /afs/cern.ch/work/d/dbhowmik/public/Analysis/MHgg/2017Analysis/CMSSW_9_4_6/src/MonoHiggsToGG/analysis/fits/ntuples4fit_pho_newSig_test_met0_met130 .
+Then try to see if this works
 
-./combine_maker_MonoHgg.sh "ntuples4fit_pho_newSig_test_met0_met130" --lumi 41.529 --fit-name cic --mc-file Output_MC.root --fit-background --redo-input 1
+cmsrel CMSSW_9_4_9
 
-./mycombineall_MonoHgg2HDMa.sh {INDIR} --hadd --model 2HDMa -C 0.9 -M AsymptoticLimits --run both
+cd CMSSW_9_4_9/src
 
-./mylimit_plots_MonoHgg.sh "ntuples4fit_pho_2HDMa_QCD_ma150_met0_met130_cic_default_shapes_lumi_41.529"
+cp -r /afs/cern.ch/work/d/dbhowmik/public/Analysis/MHgg/2017Analysis/Fit_DiPhotonTools/CMSSW_9_4_9/src/* .
+
+cmsenv
+
+scram b
+
+cd CMSSW_9_4_9/src/diphotons/Analysis/macros/2017_2HDMa_EOY/LowMET
+
+cp -r CMSSW_10_6_8/src/MonoHiggsToGG/analysis/fits/2017_2HDMa_EOY/LowMET/ntuples4fit_pho_newSig_test_met50_met130 .
+
+./combine_maker_MonoHgg.sh "ntuples4fit_pho_newSig_test_met50_met130" --lumi 41.529 --fit-name cic --mc-file Output_MC.root --fit-background --redo-input 1
+
+./mycombineall_MonoHgg2HDMa.sh "ntuples4fit_pho_newSig_test_met50_met130_cic_default_shapes_lumi_41.529" --hadd --model 2HDMa -C 0.9 -M AsymptoticLimits --run both
+
+./mylimit_plots_MonoHgg.sh "ntuples4fit_pho_newSig_test_met50_met130_cic_default_shapes_lumi_41.529"
