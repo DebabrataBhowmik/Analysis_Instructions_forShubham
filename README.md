@@ -1,10 +1,10 @@
 # Analysis_Instructions_forShubham
 
-At first copy 2017 nTuples from my eos area to your area(either at eos or wherever you want to keep them): 
+At first copy 2017 nTuples from my eos to wherever you want to keep them in your account (may be your eos): 
 
-cp -r /eos/user/d/dbhowmik/Analysis/nTuple_2017_EOY Location_of_your_area
+cp -r /eos/user/d/dbhowmik/Analysis/nTuple_2017_EOY your_path
 
-Either make a new area or do it in your CMSSW_10_6_8 area 
+Now either set a new CMSSW area or do it in your already existing CMSSW_10_6_8 
 
 go to CMSSW_10_6_8/src/MonoHiggsToGG/analysis/work/macros
 
